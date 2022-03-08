@@ -21,12 +21,7 @@ public class PosicionElementDTO {
 		return fila;
 	}
 
-	/**
-	 * @param fila the fila to set
-	 */
-	public void setFila(Integer fila) {
-		this.fila = fila;
-	}
+
 
 	/**
 	 * @return the columna
@@ -35,11 +30,6 @@ public class PosicionElementDTO {
 		return columna;
 	}
 
-	/**
-	 * @param columna the columna to set
-	 */
-	public void setColumna(Integer columna) {
-		this.columna = columna;
-	}
+
 
 }

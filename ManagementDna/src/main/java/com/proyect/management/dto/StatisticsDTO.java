@@ -34,16 +34,6 @@ public class StatisticsDTO {
 	}
 
 
-
-	/**
-	 * @param countMutantDna the countMutantDna to set
-	 */
-	public void setCountMutantDna(Integer countMutantDna) {
-		this.countMutantDna = countMutantDna;
-	}
-
-
-
 	/**
 	 * @return the countHumanDna
 	 */

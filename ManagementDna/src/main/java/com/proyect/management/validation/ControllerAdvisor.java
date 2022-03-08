@@ -52,22 +52,6 @@ public class ControllerAdvisor   extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
     
-    /**
-     * Realiza la gesti�n de errores graves.
-     * @param ex informaci�n de la excepcion.
-     * @param request WebRequest.
-     * @return ResponseEntity
-     */
-    @ExceptionHandler({ Exception.class, NullPointerException.class, ArrayIndexOutOfBoundsException.class, IOException.class })
-    public final ResponseEntity<ErrorDTO> handleAllExceptions(Exception ex, WebRequest request) {
-      List<String> details = new ArrayList<>();
-      if (StringUtils.isNotBlank(ex.getMessage())) {
-        logger.error(ex.getMessage(), ex);
-      }
-
-      ErrorDTO error = new ErrorDTO(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), details.toString(),null);
-      return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
     
     /**
      * Se ejecuta cuando hay errores en las validaciones.
