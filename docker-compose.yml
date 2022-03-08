@@ -1,0 +1,68 @@
+version: '3.8'
+
+networks:  
+  ms-network:  
+    name: ms-network  
+    driver: bridge
+    
+services:
+
+  micro-service-eureka:
+    hostname: micro-service-eureka
+    build:
+      context: ./eureka
+      dockerfile: ./Dockerfile
+    ports:
+     - "8761:8761"
+    volumes:
+     - .:/tmp
+    networks:
+      - ms-network
+    environment:
+      eureka.instance.hostname: micro-service-eureka
+      eureka.client.serviceUrl.defaultZone: http://micro-service-eureka:8761/eureka 
+      
+      
+  micro-service-gateway:
+    hostname: micro-service-gateway
+    build: 
+      context: ./gatewayProyect
+      dockerfile: ./Dockerfile
+    ports:
+     - "8080:8080"
+    volumes:
+     - .:/tmp
+    depends_on:
+      - micro-service-eureka
+     
+    links:
+      - "micro-service-eureka"
+    networks:
+      - ms-network
+    environment:
+       eureka.client.serviceUrl.defaultZone: http://micro-service-eureka:8761/eureka
+      
+  micro-service-adn:
+    hostname: micro-service-adn
+    build: 
+      context: ./ManagementDna
+      dockerfile: ./Dockerfile
+    ports:
+     - "8081:8081"
+    restart: always
+    expose:
+     - "8081"
+    volumes:
+     - .:/tmp
+    depends_on:
+      - micro-service-eureka
+    links:
+      - "micro-service-gateway"
+      - "micro-service-eureka"
+    deploy:
+      mode: replicated
+      replicas: 1
+    networks:
+      - ms-network
+    environment:
+       eureka.client.serviceUrl.defaultZone: http://micro-service-eureka:8761/eureka
